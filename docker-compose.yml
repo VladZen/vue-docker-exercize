@@ -2,11 +2,27 @@ version: '3.6'
 
 services:
   app:
+    container_name: backend
     build:
       app
     ports:
-      - "5000:5000"
+      - 5000:5000
     volumes:
+      - app-volume:/app/static
       - ./app:/app
     environment:
       MERCHANT_NAME: "Juicy merchant Ltd."
+
+  client:
+    container_name: client
+    build:
+      client
+    volumes:
+      - app-volume:/client/dist
+      - ./client:/client
+      - ./client/node_modules
+    ports:
+      - 8080:8080
+
+volumes:
+  app-volume:
