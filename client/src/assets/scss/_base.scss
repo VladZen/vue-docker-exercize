@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
+
+body {
+  font-family: 'IBM Plex Sans';
+  color: $text-color;
+  background-color: $body-color;
+  border: $body-frame-width solid $body-frame-color;
+  font-size: $base-font-size;
+}
+
+h1 {
+  font-size: $h1-size;
+  font-weight: 700;
+}
+
+.hidden {
+  display: none;
+}

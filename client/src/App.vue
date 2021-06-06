@@ -1,11 +1,26 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div class="layout">
+    <h1>{{ merchantName }} Inventory</h1>
     <router-view />
   </div>
 </template>
 
-<style lang="scss"></style>
+<script>
+import { mapActions, mapState } from "vuex";
+
+export default {
+  created() {
+    this.fetchMerchantName();
+  },
+  computed: {
+    ...mapState(["merchantName"]),
+  },
+  methods: {
+    ...mapActions({
+      fetchMerchantName: "GET_MERCHANT",
+    }),
+  },
+};
+</script>
+
+<style lang="scss" src="@/assets/scss/index.scss"></style>

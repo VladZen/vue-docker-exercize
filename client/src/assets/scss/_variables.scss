@@ -1,0 +1,16 @@
+// colors
+$body-frame-color: #d4d9de;
+$body-color:       #f2f2f2;
+$text-color:       #222222;
+$label-color:      #5f5f5f;
+
+// offsets and measurements
+$body-frame-width: 32px;
+$base-offset:      8px;
+$content-width:    ($base-offset * 2) + 608px;
+$header-height:    100px;
+$base-radius:      $base-offset;
+
+// typography
+$h1-size:          48px;
+$base-font-size:   16px;

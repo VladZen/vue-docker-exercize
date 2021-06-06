@@ -1,0 +1,45 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  max-width: $content-width;
+  margin: 80px auto 20px auto;
+  padding: 0 $base-offset;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    margin-bottom: 48px;
+  }
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  transition: background-color .15s ease;
+  width: 48px;
+  height: 48px;
+  margin-right: 24px;
+
+  &__icon {
+    display: inline-block;
+    width: 37px;
+    height: 34px;
+
+    use {
+      transition: fill .1s ease;
+      fill: $text-color;
+    }
+  }
+
+  &:hover {
+    background-color: $text-color;
+
+    use {
+      transition: fill .15s ease;
+      fill: $body-color;
+    }
+  }
+}
