@@ -16,3 +16,9 @@ h1 {
 .hidden {
   display: none;
 }
+
+.text-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}

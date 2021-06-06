@@ -24,7 +24,7 @@
       :disabled="modeIs.show"
     />
 
-    <div class="list-item__controls">
+    <div class="inventory-item__controls">
       <template v-if="modeIs.create">
         <button
           type="button"
@@ -175,8 +175,7 @@ export default {
 };
 </script>
 
-<style module lang="scss">
-@import "../assets/scss/variables";
+<style lang="scss">
 .inventory-item {
   display: flex;
   align-items: center;
@@ -200,15 +199,6 @@ export default {
     border-radius: $base-radius * 1.5;
     background-color: $body-color;
     padding: 2px 9px;
-
-    &__icon {
-      display: inline-block;
-      align-self: center;
-      background-size: contain;
-      width: 14px;
-      height: 14px;
-      margin-right: 5px;
-    }
   }
 
   & + & {
