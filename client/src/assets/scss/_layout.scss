@@ -9,37 +9,39 @@
     display: flex;
     align-items: center;
     height: $header-height;
+    line-height: 1;
     margin-bottom: 48px;
   }
 }
 
-.back-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  transition: background-color .15s ease;
-  width: 48px;
-  height: 48px;
-  margin-right: 24px;
-
-  &__icon {
-    display: inline-block;
-    width: 37px;
-    height: 34px;
-
-    use {
-      transition: fill .1s ease;
-      fill: $text-color;
-    }
+.header {
+  &__btns {
+    align-self: flex-start;
+    margin-top: 10px;
   }
 
-  &:hover {
-    background-color: $text-color;
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    transition: background-color .15s ease;
+    width: 48px;
+    height: 48px;
+    margin-right: 24px;
+    color: $text-color;
+    border: 0;
 
-    use {
-      transition: fill .15s ease;
-      fill: $body-color;
+    svg {
+      transition: color .15s ease;
+    }
+
+    &:hover {
+      background-color: $text-color;
+
+      svg {
+        color: $body-color;
+      }
     }
   }
 }

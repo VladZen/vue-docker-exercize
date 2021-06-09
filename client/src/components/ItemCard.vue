@@ -1,104 +1,142 @@
 <template>
-  <div class="inventory-item">
-    <template v-if="modeIs.create || modeIs.edit">
+  <div
+    class="inventory-item"
+    :class="{
+      shake: shake,
+    }"
+  >
+    <div
+      class="inventory-item__name"
+      :class="{
+        invalid: $errors.name,
+      }"
+    >
       <input
-        type="text"
         ref="name-input"
-        placeholder="Type name"
-        class="inventory-item__name"
-        v-model="item.name"
+        type="text"
+        v-model="local.name"
+        :disabled="mode === 'show'"
+        :placeholder="mode === 'show' ? 'No Name' : 'Type name'"
       />
-    </template>
 
-    <template v-if="!modeIs.create && modeIs.show">
-      <router-link :to="`/show/${item.id}`" class="inventory-item__name">
-        {{ item.name }}
-      </router-link>
-    </template>
+      <small class="error-msg">Name shouldn't be empty!</small>
+    </div>
 
-    <input
-      v-if="!modeIs.create"
-      type="number"
+    <div
+      v-if="mode !== 'create'"
       class="inventory-item__quantity"
-      v-model.number="item.quantity"
-      :disabled="modeIs.show"
-    />
+      :class="{
+        invalid: $errors.quantity,
+      }"
+    >
+      <input
+        type="number"
+        v-model.number="local.quantity"
+        :disabled="mode === 'show'"
+      />
+
+      <small class="error-msg">Quantity should be a positive integer!</small>
+    </div>
 
     <div class="inventory-item__controls">
-      <template v-if="modeIs.create">
-        <button
-          type="button"
-          class="btn btn-remove"
+      <template v-if="mode === 'create'">
+        <btn
+          class="btn--save"
+          title="Save"
+          variant="success"
           :disabled="interactionInProgress"
           @click="save"
         >
-          <spinner :flag="!loaded.create" />
+          <spinner variant="success" :flag="!loaded.create" />
+          <font-awesome-icon v-if="loaded.create" icon="check" />
+        </btn>
 
-          <span :class="!loaded.create ? 'hidden-text' : ''"> Save </span>
-        </button>
+        <btn
+          class="btn--edit"
+          title="Discard"
+          variant="danger"
+          :disabled="interactionInProgress"
+          @click="reset"
+        >
+          <font-awesome-icon icon="undo" />
+        </btn>
       </template>
 
-      <template v-else>
-        <button
-          type="button"
-          class="btn btn-remove"
-          :disabled="interactionInProgress"
-          @click="remove"
-        >
-          <spinner :flag="!loaded.remove" />
-
-          <span :class="!loaded.remove ? 'hidden-text' : ''"> Remove </span>
-        </button>
-
-        <button
-          v-if="modeIs.show"
-          type="button"
-          class="btn btn-edit"
+      <template v-else-if="mode === 'show'">
+        <btn
+          class="btn--edit"
+          title="Edit"
           :disabled="interactionInProgress"
           @click="toggleMode('edit')"
         >
-          Edit
-        </button>
+          <font-awesome-icon icon="edit" />
+        </btn>
 
-        <button
-          v-if="modeIs.edit"
-          type="button"
-          class="btn btn-apply"
+        <btn
+          class="btn--remove"
+          title="Remove"
+          variant="danger"
+          :disabled="interactionInProgress"
+          @click="remove"
+        >
+          <spinner variant="danger" :flag="!loaded.remove" />
+          <font-awesome-icon v-if="loaded.remove" icon="times" />
+        </btn>
+      </template>
+
+      <template v-else-if="mode === 'edit'">
+        <btn
+          v-if="mode === 'edit'"
+          class="btn--apply"
+          title="Apply"
+          variant="success"
           :disabled="interactionInProgress"
           @click="update"
         >
-          <spinner :flag="!loaded.update" />
+          <spinner variant="success" :flag="!loaded.update" />
+          <font-awesome-icon v-if="loaded.update" icon="check" />
+        </btn>
 
-          <span :class="!loaded.update ? 'hidden-text' : ''"> Apply </span>
-        </button>
+        <btn
+          key="discard"
+          class="btn--edit"
+          title="Discard"
+          variant="danger"
+          :disabled="interactionInProgress"
+          @click="
+            toggleMode('show');
+            reset(item);
+          "
+        >
+          <font-awesome-icon icon="undo" />
+        </btn>
       </template>
-
-      <button
-        v-if="modeIs.create || modeIs.edit"
-        type="button"
-        class="btn btn-edit"
-        :disabled="interactionInProgress"
-        @click="toggleMode(modeIs.edit ? 'show' : undefined)"
-      >
-        Discard
-      </button>
     </div>
   </div>
 </template>
 
 <script>
-import defaultItem from "@/config/default-item";
+import { reactive, ref, computed } from "@vue/composition-api";
 import useFlag from "@/use/requestLoadingFlag";
-import { reactive, toRefs } from "@vue/composition-api";
+import useStore from "@/use/store";
+import useItem from "@/use/item";
+
 import Spinner from "@/components/Spinner";
+import Btn from "@/components/Button";
 
 export default {
   components: {
     Spinner,
+    Btn,
   },
   setup(props, ctx) {
-    const store = ctx.root.$store;
-    const { item } = toRefs(props);
+    const store = useStore(ctx);
+    const mode = ref(props.state);
+    const $errors = ref({ name: false, quantity: false });
+    const shake = ref(false);
+
+    const local = useItem(props.item);
+
     const { loaded: create, promise: dispatchCreate } = useFlag(
       store.dispatch.bind(null, "ADD")
     );
@@ -108,68 +146,82 @@ export default {
     const { loaded: remove, promise: dispatchRemove } = useFlag(
       store.dispatch.bind(null, "REMOVE")
     );
+    const loaded = reactive({
+      create,
+      update,
+      remove,
+    });
+    const interactionInProgress = computed(() =>
+      Object.keys(loaded).some((action) => !loaded[action])
+    );
 
     return {
-      loaded: reactive({
-        create,
-        update,
-        remove,
-      }),
+      loaded,
       dispatchCreate,
       dispatchUpdate,
       dispatchRemove,
-      local: item,
+      interactionInProgress,
+      defaultItem: (item) => useItem(item),
+      local,
+      mode,
+      $errors,
+      shake,
     };
   },
   props: {
     item: {
       type: Object,
-      default: defaultItem,
+      default: () => {},
     },
-    mode: {
+    state: {
       type: String,
-      validator: (value) => ["show", "edit"].includes(value),
+      validator: (value) => ["show", "create", "edit"].includes(value),
       default: "show",
-    },
-  },
-  data() {
-    return {
-      currentMode: this.mode,
-    };
-  },
-  computed: {
-    existsInDb() {
-      return !!this.item.id;
-    },
-    modeIs() {
-      return {
-        show: this.currentMode === "show",
-        create: !this.existsInDb,
-        edit: this.currentMode === "edit",
-      };
-    },
-    interactionInProgress() {
-      return Object.keys(this.loaded).some((action) => !this.loaded[action]);
     },
   },
   methods: {
     async save() {
-      const id = await this.dispatchCreate(this.local.name);
-      this.toggleMode("show");
+      if (this.isInvalid()) return;
+      const { id } = await this.dispatchCreate(this.local.name);
       this.$emit("save", id);
+      this.reset();
     },
     async remove() {
-      await this.dispatchRemove(this.item);
-      this.$emit("remove", this.item);
+      await this.dispatchRemove(this.local);
+      this.$emit("remove", this.local.id);
     },
     async update() {
-      const item = await this.dispatchUpdate(this.local);
-      this.toggleMode("show");
-      this.$emit("update", item);
+      if (this.isInvalid()) return;
+      if ((this.item, this.local)) {
+        this.local = await this.dispatchUpdate(this.local);
+        this.$emit("update", this.local.id);
+      }
+      this.toggleMode("show", this.local.id);
     },
-    toggleMode(mode) {
-      this.currentMode = mode;
-      this.$emit("update:mode", { mode, id: this.item.id });
+    toggleMode(mode, id = this.local.id) {
+      this.mode = mode;
+      this.$emit("update:mode", { mode, id });
+    },
+    reset(to = null) {
+      this.local = this.defaultItem(to);
+      this.$errors = {
+        name: false,
+        quantity: false,
+      };
+      this.$emit("reset", this.local.id);
+    },
+    shakeItem() {
+      this.shake = true;
+      setTimeout(() => (this.shake = false), 1000);
+    },
+    isInvalid() {
+      this.$errors.name = !this.local.name;
+      if (this.mode === "edit")
+        this.$errors.quantity = !this.local.quantity || this.local.quantity < 0;
+
+      const error = this.$errors.name || this.$errors.quantity;
+      if (error) this.shakeItem();
+      return error;
     },
   },
 };
@@ -178,31 +230,82 @@ export default {
 <style lang="scss">
 .inventory-item {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   background-color: #fff;
   border-radius: $base-radius;
-  padding: 0 $base-offset * 2;
-  min-height: $base-offset * 8;
+  padding: 5px $base-offset * 2;
+  min-height: 83px;
 
-  &__name {
-    font-weight: 700;
-    white-space: nowrap;
-    padding-right: $base-offset;
-  }
-
-  &__status {
+  &__quantity {
+    width: auto;
+    margin-left: auto;
     display: inline-flex;
     align-items: baseline;
-    font-size: 75%;
-    min-width: 102px;
-    border-radius: $base-radius * 1.5;
-    background-color: $body-color;
-    padding: 2px 9px;
+    text-align: right;
+    margin-right: $base-offset;
+  }
+
+  &__quantity,
+  &__name {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__controls {
+    align-self: center;
+  }
+
+  &.shake {
+    animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .error-msg {
+    opacity: 0;
+    color: $danger-color;
+    transition: opacity $transition;
+    pointer-events: none;
+  }
+
+  .invalid {
+    input {
+      border-color: $danger-color;
+    }
+
+    .error-msg {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 
   & + & {
     margin-top: $base-offset;
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
   }
 }
 </style>

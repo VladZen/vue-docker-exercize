@@ -77,7 +77,7 @@ export default new Vuex.Store({
     },
     async ADD({ commit }, name) {
       const formData = _HELPERS.makeFormData({ name });
-      const item = await axios.post("/api/inventory/", formData);
+      const { data: item } = await axios.post("/api/inventory/", formData);
       commit("addItem", item);
       return item.id;
     },

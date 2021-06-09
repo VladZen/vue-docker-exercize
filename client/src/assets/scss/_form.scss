@@ -1,0 +1,12 @@
+input {
+  border: none;
+  outline: 0;
+  border-bottom: $input-border-width solid $input-border-color;
+  transition: border-color $transition;
+  margin-bottom: 5px;
+
+  &:disabled {
+    background: #fff;
+    border-bottom: $input-border-width solid transparent;
+  }
+}

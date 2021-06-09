@@ -1,6 +1,6 @@
 import { ref } from "@vue/composition-api";
 
-export default function (action) {
+export default function(action) {
   const loaded = ref(true);
   const promise = async (arg = undefined) => {
     loaded.value = false;
