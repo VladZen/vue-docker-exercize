@@ -8,7 +8,7 @@
       </span>
     </page-head>
 
-    <item-card state="create" @save="goToShow" />
+    <item-card state="create" @save="goToShow" @reset="goToList" />
   </div>
 </template>
 
@@ -24,6 +24,9 @@ export default {
   methods: {
     goToShow(id) {
       this.$router.push(`/show/${id}`);
+    },
+    goToList() {
+      this.$router.push("/");
     },
   },
 };
