@@ -13,6 +13,9 @@
       </span>
     </page-head>
 
+    <!-- sort control -->
+    <sort-control />
+
     <item-card
       v-if="isCreate"
       state="create"
@@ -39,12 +42,14 @@ import useList from "@/use/scenario/ofList";
 import ItemCard from "@/components/ItemCard";
 import Spinner from "@/components/Spinner";
 import PageHead from "@/components/Header";
+import SortControl from "@/components/SortControl";
 
 export default {
   components: {
     ItemCard,
     Spinner,
     PageHead,
+    SortControl,
   },
   setup() {
     const { list, listLoaded, isCreate, fetchInventory, toggleCreate } =
