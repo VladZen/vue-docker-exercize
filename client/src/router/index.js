@@ -9,39 +9,21 @@ const routes = [
     name: "Inventory List",
     component: () => import(/* webpackChunkName: "list" */ "@/views/List.vue"),
   },
-  // {
-  //   path: "/show/:id",
-  //   name: "View Item",
-  //   props: {
-  //     action: "show",
-  //   },
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "view" */ "@/views/View.vue"),
-  // },
-  // {
-  //   path: "/edit/:id",
-  //   name: "Edit Item",
-  //   props: {
-  //     action: "edit",
-  //   },
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "view" */ "@/views/View.vue"),
-  // },
-  // {
-  //   path: "/new",
-  //   name: "New Item",
-  //   props: {
-  //     action: "create",
-  //   },
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "view" */ "@/views/View.vue"),
-  // },
+  {
+    path: "/show/:id",
+    name: "View Item",
+    component: () => import(/* webpackChunkName: "view" */ "@/views/View.vue"),
+  },
+  {
+    path: "/edit/:id",
+    name: "Edit Item",
+    component: () => import(/* webpackChunkName: "view" */ "@/views/Edit.vue"),
+  },
+  {
+    path: "/create",
+    name: "New Item",
+    component: () => import(/* webpackChunkName: "view" */ "@/views/New.vue"),
+  },
   // default
   {
     path: "*",

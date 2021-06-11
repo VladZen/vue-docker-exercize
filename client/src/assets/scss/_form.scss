@@ -4,6 +4,7 @@ input {
   border-bottom: $input-border-width solid $input-border-color;
   transition: border-color $transition;
   margin-bottom: 5px;
+  width: 100%;
 
   &:disabled {
     background: #fff;

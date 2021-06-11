@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 
-import defaultItem from "@/config/default-item";
+import _sortBy from "lodash.orderby";
 
 Vue.use(Vuex);
 
@@ -34,6 +34,10 @@ export default new Vuex.Store({
   state: () => ({
     merchantName: "",
     list: [],
+    orderBy: {
+      column: "name",
+      direction: "asc",
+    },
   }),
   mutations: {
     initializeList(state, list) {
@@ -44,7 +48,7 @@ export default new Vuex.Store({
         item.id === listItem.id ? item : listItem
       );
     },
-    addItem(state, item = defaultItem()) {
+    addItem(state, item) {
       state.list.unshift(item);
     },
     removeItem(state, itemId) {
@@ -53,9 +57,21 @@ export default new Vuex.Store({
     setMerchantName(state, merchantName) {
       state.merchantName = merchantName;
     },
+    setOrder(state, orderObject) {
+      state.orderBy = {
+        ...state.orderBy,
+        ...orderObject,
+      };
+    },
+  },
+  getters: {
+    sortedList({ list, orderBy: { direction, column } }) {
+      return _sortBy(list, [column], [direction]);
+    },
   },
   actions: {
-    async GET_MERCHANT({ commit }) {
+    async GET_MERCHANT({ commit, state }) {
+      if (state.merchantName) return state.merchantName;
       const { data: merchantName } = await axios.get("/api/merchant-name/");
       commit("setMerchantName", merchantName);
     },

@@ -19,7 +19,7 @@
         :placeholder="mode === 'show' ? 'No Name' : 'Type name'"
       />
 
-      <small class="error-msg">Name shouldn't be empty!</small>
+      <small class="error-msg">expects not to be empty!</small>
     </div>
 
     <div
@@ -33,9 +33,10 @@
         type="number"
         v-model.number="local.quantity"
         :disabled="mode === 'show'"
+        placeholder="Type quantity"
       />
 
-      <small class="error-msg">Quantity should be a positive integer!</small>
+      <small class="error-msg">expects a positive integer!</small>
     </div>
 
     <div class="inventory-item__controls">
@@ -116,10 +117,12 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from "@vue/composition-api";
+import _isEqual from "lodash.isequal";
+import defaultItem from "@/config/default-item.js";
+
+import { reactive, ref, computed, watch } from "@vue/composition-api";
 import useFlag from "@/use/requestLoadingFlag";
 import useStore from "@/use/store";
-import useItem from "@/use/item";
 
 import Spinner from "@/components/Spinner";
 import Btn from "@/components/Button";
@@ -132,10 +135,9 @@ export default {
   setup(props, ctx) {
     const store = useStore(ctx);
     const mode = ref(props.state);
-    const $errors = ref({ name: false, quantity: false });
+    const local = ref(defaultItem(props.item));
+    const $errors = reactive({ name: false, quantity: false });
     const shake = ref(false);
-
-    const local = useItem(props.item);
 
     const { loaded: create, promise: dispatchCreate } = useFlag(
       store.dispatch.bind(null, "ADD")
@@ -155,13 +157,18 @@ export default {
       Object.keys(loaded).some((action) => !loaded[action])
     );
 
+    watch(
+      () => props.item,
+      (value) => (local.value = { ...value })
+    );
+
     return {
       loaded,
       dispatchCreate,
       dispatchUpdate,
       dispatchRemove,
       interactionInProgress,
-      defaultItem: (item) => useItem(item),
+      defaultItem: () => reactive(defaultItem(props.item)),
       local,
       mode,
       $errors,
@@ -182,7 +189,7 @@ export default {
   methods: {
     async save() {
       if (this.isInvalid()) return;
-      const { id } = await this.dispatchCreate(this.local.name);
+      const id = await this.dispatchCreate(this.local.name);
       this.$emit("save", id);
       this.reset();
     },
@@ -192,7 +199,8 @@ export default {
     },
     async update() {
       if (this.isInvalid()) return;
-      if ((this.item, this.local)) {
+
+      if (!_isEqual(this.item, this.local)) {
         this.local = await this.dispatchUpdate(this.local);
         this.$emit("update", this.local.id);
       }
@@ -208,7 +216,7 @@ export default {
         name: false,
         quantity: false,
       };
-      this.$emit("reset", this.local.id);
+      this.$emit("reset");
     },
     shakeItem() {
       this.shake = true;
@@ -217,7 +225,9 @@ export default {
     isInvalid() {
       this.$errors.name = !this.local.name;
       if (this.mode === "edit")
-        this.$errors.quantity = !this.local.quantity || this.local.quantity < 0;
+        this.$errors.quantity =
+          ["", null, undefined].includes(this.local.quantity) ||
+          this.local.quantity < 0;
 
       const error = this.$errors.name || this.$errors.quantity;
       if (error) this.shakeItem();
@@ -238,18 +248,28 @@ export default {
   min-height: 83px;
 
   &__quantity {
-    width: auto;
-    margin-left: auto;
+    margin-left: 10px;
     display: inline-flex;
     align-items: baseline;
-    text-align: right;
     margin-right: $base-offset;
+
+    input {
+      text-align: right;
+    }
   }
 
   &__quantity,
   &__name {
     display: flex;
     flex-direction: column;
+  }
+
+  &__name {
+    flex: 2;
+  }
+
+  &__quantity {
+    flex: 1;
   }
 
   &__controls {

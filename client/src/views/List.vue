@@ -20,9 +20,9 @@
       @reset="toggleCreate(false)"
     />
 
-    <spinner :flag="!loaded" />
+    <spinner :flag="!listLoaded" />
 
-    <template v-if="loaded">
+    <template v-if="listLoaded">
       <div v-if="!list.length" class="no-items-message">
         No items in the list =(
       </div>
@@ -33,11 +33,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import { onMounted, ref } from "@vue/composition-api";
-import useFlag from "@/use/requestLoadingFlag";
-import useStore from "@/use/store";
+import { onMounted } from "@vue/composition-api";
+import useList from "@/use/scenario/ofList";
 
 import ItemCard from "@/components/ItemCard";
 import Spinner from "@/components/Spinner";
@@ -49,30 +46,20 @@ export default {
     Spinner,
     PageHead,
   },
-  setup(props, ctx) {
-    const store = useStore(ctx);
-    const isCreate = ref(false);
+  setup() {
+    const { list, listLoaded, isCreate, fetchInventory, toggleCreate } =
+      useList();
 
-    const { loaded, promise: fetchInventory } = useFlag(
-      store.dispatch.bind(null, "GET_INVENTORY")
-    );
-
-    onMounted(fetchInventory);
+    onMounted(async () => {
+      await fetchInventory();
+    });
 
     return {
-      loaded,
+      list,
+      listLoaded,
       isCreate,
-      toggleCreate(flag = !isCreate.value) {
-        isCreate.value = flag;
-      },
+      toggleCreate,
     };
-  },
-  computed: {
-    // Until Vue3 released as a stable version,
-    // there are some issues, connected to the interaction between Vuex and Composition API Plugin for Vue2,
-    // so to prevent unexpected error, it's better to declare computed props from Vuex
-    // using mappers.
-    ...mapState(["list", "newItemId"]),
   },
 };
 </script>
