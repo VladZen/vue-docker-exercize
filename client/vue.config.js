@@ -25,8 +25,8 @@ const config = {
   }
 }
 
-if (!isProductionMode) {
-  config.outputDir = resolve(__dirname, '../app/static')
-}
+// if (!isProductionMode) {
+//   config.outputDir = resolve(__dirname, '../app/static')
+// }
 
 module.exports = config
