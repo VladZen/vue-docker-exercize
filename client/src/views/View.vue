@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import { onMounted, ref } from "@vue/composition-api";
-import useRoute from "@/use/route";
 import useFetchItem from "@/use/scenario/ofShowOrEdit";
 
 import ItemCard from "@/components/ItemCard";
@@ -36,14 +34,7 @@ export default {
     PageHead,
   },
   setup(props, ctx) {
-    const route = useRoute(ctx);
-    const item = ref({});
-    const { itemLoaded, fetchItem } = useFetchItem();
-
-    onMounted(async () => {
-      item.value = await fetchItem(route.params.id);
-    });
-
+    const { itemLoaded, item } = useFetchItem(ctx);
     return {
       itemLoaded,
       item,

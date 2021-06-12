@@ -1,10 +1,11 @@
 import { actions } from "@/store/actions";
 
-// mocking api
-const axiosMock = global.createAxiosMock();
 const LIST = global.generateList(4);
 const SAVE_ID = "6";
 const MERCHANT_NAME = "Some Merchant Name";
+
+// mocking api
+const axiosMock = global.createAxiosMock();
 
 axiosMock
   .onGet("/api/merchant-name/")
