@@ -20,3 +20,15 @@ global.timeout = (duration = 0) =>
 global.createAxiosMock = (props = {}) => new MockAdapter(axios, props);
 
 global.resetAxiosMock = (mockInstance) => mockInstance.resetHandlers();
+
+global.generateList = (count) =>
+  Array(count)
+    .fill()
+    .map((x, i) => {
+      const id = i + 1;
+      return {
+        id: id.toString(),
+        name: `Item ${id}`,
+        quantity: 10 * id,
+      };
+    });
