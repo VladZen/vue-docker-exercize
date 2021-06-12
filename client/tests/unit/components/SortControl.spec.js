@@ -10,8 +10,8 @@ const store = new Vuex.Store({
   state: () => ({ orderBy: { column: "name", direction: "asc" } }),
   mutations: {
     setOrder: mutations.setOrder,
-  }
-})
+  },
+});
 
 const mountSortControl = () => mount(SortControl, { localVue, store });
 
@@ -21,7 +21,7 @@ describe("SortControl", () => {
   const select = () => wrapper.find(".sort-control__select");
 
   beforeAll(() => {
-    wrapper = mountSortControl()
+    wrapper = mountSortControl();
   });
 
   it("checks basic rendering", () => {
@@ -29,8 +29,8 @@ describe("SortControl", () => {
   });
 
   it("checks manipulations with the select", async () => {
-    const options = select().findAll('option');
-    await options.at(1).setSelected()
-    expect(wrapper).toMatchSnapshot()
+    const options = select().findAll("option");
+    await options.at(1).setSelected();
+    expect(wrapper).toMatchSnapshot();
   });
 });

@@ -12,7 +12,7 @@ const mountSpinner = (variant, flag = false) => {
 };
 
 describe("Spinner", () => {
-  it('is hidden by default', () => {
+  it("is hidden by default", () => {
     expect(mountSpinner(undefined, false)).toMatchSnapshot();
   });
 

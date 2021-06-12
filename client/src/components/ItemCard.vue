@@ -199,7 +199,6 @@ export default {
     async save() {
       if (this.isInvalid()) return;
       const id = await this.dispatchCreate(this.local.name);
-      console.log(id);
       this.$emit("save", id);
       this.reset();
     },

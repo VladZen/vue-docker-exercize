@@ -12,9 +12,9 @@ const store = new Vuex.Store({
   actions: {
     GET_MERCHANT({ state }) {
       state.merchantName = MERCHANT_NAME;
-    }
-  }
-})
+    },
+  },
+});
 
 const mountHeader = (buttons = "") => {
   return mount(Header, {
