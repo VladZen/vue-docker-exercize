@@ -1,9 +1,10 @@
 <template>
-  <div
+  <form
     class="inventory-item"
     :class="{
       shake: shake,
     }"
+    @submit.prevent="handleSubmit"
   >
     <div
       class="inventory-item__name"
@@ -42,18 +43,21 @@
     <div class="inventory-item__controls">
       <template v-if="mode === 'create'">
         <btn
+          key="create"
           class="btn--save"
+          type="submit"
           title="Save"
           variant="success"
           :disabled="interactionInProgress"
-          @click="save"
         >
           <spinner variant="success" :flag="!loaded.create" />
           <font-awesome-icon v-if="loaded.create" icon="check" />
         </btn>
 
         <btn
+          key="discard"
           class="btn--edit"
+          type="reset"
           title="Discard"
           variant="danger"
           :disabled="interactionInProgress"
@@ -65,6 +69,8 @@
 
       <template v-else-if="mode === 'show'">
         <btn
+          key="trigger-state"
+          type="button"
           class="btn--edit"
           title="Edit"
           :disabled="interactionInProgress"
@@ -74,6 +80,7 @@
         </btn>
 
         <btn
+          key="remove"
           class="btn--remove"
           title="Remove"
           variant="danger"
@@ -88,11 +95,12 @@
       <template v-else-if="mode === 'edit'">
         <btn
           v-if="mode === 'edit'"
+          key="update"
+          type="submit"
           class="btn--apply"
           title="Apply"
           variant="success"
           :disabled="interactionInProgress"
-          @click="update"
         >
           <spinner variant="success" :flag="!loaded.update" />
           <font-awesome-icon v-if="loaded.update" icon="check" />
@@ -101,6 +109,7 @@
         <btn
           key="discard"
           class="btn--edit"
+          type="reset"
           title="Discard"
           variant="danger"
           :disabled="interactionInProgress"
@@ -113,7 +122,7 @@
         </btn>
       </template>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -232,6 +241,16 @@ export default {
       const error = this.$errors.name || this.$errors.quantity;
       if (error) this.shakeItem();
       return error;
+    },
+    handleSubmit() {
+      switch (this.mode) {
+        case "create":
+          this.save();
+          break;
+        case "edit":
+          this.update();
+          break;
+      }
     },
   },
 };
