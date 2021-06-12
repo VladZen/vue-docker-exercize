@@ -168,3 +168,5 @@ pnpm-debug.log*
 
 static
 dist
+
+client/**/coverage

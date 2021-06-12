@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button checks basic rendering of variant danger 1`] = `<button type="button" class="btn btn--danger"><span>Button</span></button>`;
+
+exports[`Button checks basic rendering of variant success 1`] = `<button type="button" class="btn btn--success"><span>Button</span></button>`;
+
+exports[`Button checks basic rendering of variant warning 1`] = `<button type="button" class="btn btn--warning"><span>Button</span></button>`;

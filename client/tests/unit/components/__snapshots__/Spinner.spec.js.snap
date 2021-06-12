@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner checks basic rendering of variant danger 1`] = `
+<div class="spinner spinner--danger">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+</div>
+`;
+
+exports[`Spinner checks basic rendering of variant success 1`] = `
+<div class="spinner spinner--success">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+</div>
+`;
+
+exports[`Spinner checks basic rendering of variant warning 1`] = `
+<div class="spinner spinner--warning">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+</div>
+`;
+
+exports[`Spinner is hidden by default 1`] = ``;

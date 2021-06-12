@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemCard checks "create" basic rendering 1`] = `
+<form class="inventory-item">
+  <div class="inventory-item__name"><input type="text" placeholder="Type name"> <small class="error-msg">expects not to be empty!</small></div>
+  <!---->
+  <div class="inventory-item__controls"><button type="submit" class="btn btn--save btn--success" title="Save">
+      <!---->
+      <font-awesome-icon-stub icon="check"></font-awesome-icon-stub>
+    </button> <button type="reset" class="btn btn--edit btn--danger" title="Discard">
+      <font-awesome-icon-stub icon="undo"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard checks "edit" basic rendering 1`] = `
+<form class="inventory-item">
+  <div class="inventory-item__name"><input type="text" placeholder="Type name"> <small class="error-msg">expects not to be empty!</small></div>
+  <div class="inventory-item__quantity"><input type="number" placeholder="Type quantity"> <small class="error-msg">expects a positive integer!</small></div>
+  <div class="inventory-item__controls"><button type="submit" class="btn btn--apply btn--success" title="Apply">
+      <!---->
+      <font-awesome-icon-stub icon="check"></font-awesome-icon-stub>
+    </button> <button type="reset" class="btn btn--edit btn--danger" title="Discard">
+      <font-awesome-icon-stub icon="undo"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard checks "show" basic rendering 1`] = `
+<form class="inventory-item">
+  <div class="inventory-item__name"><input type="text" disabled="disabled" placeholder="No Name"> <small class="error-msg">expects not to be empty!</small></div>
+  <div class="inventory-item__quantity"><input type="number" disabled="disabled" placeholder="Type quantity"> <small class="error-msg">expects a positive integer!</small></div>
+  <div class="inventory-item__controls"><button type="button" class="btn btn--edit" title="Edit">
+      <font-awesome-icon-stub icon="edit"></font-awesome-icon-stub>
+    </button> <button type="button" class="btn btn--remove btn--danger" title="Remove">
+      <!---->
+      <font-awesome-icon-stub icon="times"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard create should properly handle save when input data is invalid 1`] = `
+<form class="inventory-item shake">
+  <div class="inventory-item__name invalid"><input type="text" placeholder="Type name"> <small class="error-msg">expects not to be empty!</small></div>
+  <!---->
+  <div class="inventory-item__controls"><button type="submit" class="btn btn--save btn--success" title="Save">
+      <!---->
+      <font-awesome-icon-stub icon="check"></font-awesome-icon-stub>
+    </button> <button type="reset" class="btn btn--edit btn--danger" title="Discard">
+      <font-awesome-icon-stub icon="undo"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard edit should properly handle update when data has been changed and valid 1`] = `
+<form class="inventory-item">
+  <div class="inventory-item__name"><input type="text" placeholder="No Name" disabled="disabled"> <small class="error-msg">expects not to be empty!</small></div>
+  <div class="inventory-item__quantity"><input type="number" placeholder="Type quantity" disabled="disabled"> <small class="error-msg">expects a positive integer!</small></div>
+  <div class="inventory-item__controls"><button type="button" class="btn btn--edit" title="Edit">
+      <font-awesome-icon-stub icon="edit"></font-awesome-icon-stub>
+    </button> <button type="button" class="btn btn--remove btn--danger" title="Remove">
+      <!---->
+      <font-awesome-icon-stub icon="times"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard edit should properly handle update when data has not been changed 1`] = `
+<form class="inventory-item">
+  <div class="inventory-item__name"><input type="text" placeholder="No Name" disabled="disabled"> <small class="error-msg">expects not to be empty!</small></div>
+  <div class="inventory-item__quantity"><input type="number" placeholder="Type quantity" disabled="disabled"> <small class="error-msg">expects a positive integer!</small></div>
+  <div class="inventory-item__controls"><button type="button" class="btn btn--edit" title="Edit">
+      <font-awesome-icon-stub icon="edit"></font-awesome-icon-stub>
+    </button> <button type="button" class="btn btn--remove btn--danger" title="Remove">
+      <!---->
+      <font-awesome-icon-stub icon="times"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;
+
+exports[`ItemCard edit should properly handle update when input data is invalid 1`] = `
+<form class="inventory-item shake">
+  <div class="inventory-item__name invalid"><input type="text" placeholder="Type name"> <small class="error-msg">expects not to be empty!</small></div>
+  <div class="inventory-item__quantity invalid"><input type="number" placeholder="Type quantity"> <small class="error-msg">expects a positive integer!</small></div>
+  <div class="inventory-item__controls"><button type="submit" class="btn btn--apply btn--success" title="Apply">
+      <!---->
+      <font-awesome-icon-stub icon="check"></font-awesome-icon-stub>
+    </button> <button type="reset" class="btn btn--edit btn--danger" title="Discard">
+      <font-awesome-icon-stub icon="undo"></font-awesome-icon-stub>
+    </button></div>
+</form>
+`;

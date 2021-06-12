@@ -23,6 +23,7 @@
     "vuex-composition-helpers": "^1.0.23"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-e2e-nightwatch": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -32,6 +33,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/test-utils": "^1.0.3",
+    "axios-mock-adapter": "^1.19.0",
     "babel-eslint": "^10.1.0",
     "chromedriver": "90",
     "eslint": "^6.7.2",

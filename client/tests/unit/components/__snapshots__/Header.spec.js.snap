@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header checks rendering with buttons 1`] = `
+<div class="layout__header">
+  <div class="header__btns"><button type="button">Some Button</button></div>
+  <h1>Some Merchant Name<br>Inventory</h1>
+</div>
+`;
+
+exports[`Header checks rendering without buttons 1`] = `
+<div class="layout__header">
+  <!---->
+  <h1>Some Merchant Name<br>Inventory</h1>
+</div>
+`;

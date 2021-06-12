@@ -14,6 +14,7 @@
 <script>
 const STYLES = ["warning", "danger", "success"];
 
+export { STYLES };
 export default {
   props: {
     variant: {

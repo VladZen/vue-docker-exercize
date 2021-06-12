@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SortControl checks basic rendering 1`] = `
+<div class="sort-control"><span>Sorted by name:</span> <select class="sort-control__select">
+    <optgroup label="name">
+      <option value="[object Object]">
+        asc
+      </option>
+      <option value="[object Object]">
+        desc
+      </option>
+    </optgroup>
+    <optgroup label="quantity">
+      <option value="[object Object]">
+        asc
+      </option>
+      <option value="[object Object]">
+        desc
+      </option>
+    </optgroup>
+  </select></div>
+`;
+
+exports[`SortControl checks manipulations with the select 1`] = `
+<div class="sort-control"><span>Sorted by name:</span> <select class="sort-control__select">
+    <optgroup label="name">
+      <option value="[object Object]">
+        asc
+      </option>
+      <option value="[object Object]">
+        desc
+      </option>
+    </optgroup>
+    <optgroup label="quantity">
+      <option value="[object Object]">
+        asc
+      </option>
+      <option value="[object Object]">
+        desc
+      </option>
+    </optgroup>
+  </select></div>
+`;
