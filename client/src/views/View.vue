@@ -21,25 +21,10 @@
 </template>
 
 <script>
-import useFetchItem from "@/use/scenario/ofShowOrEdit";
-
-import ItemCard from "@/components/ItemCard";
-import Spinner from "@/components/Spinner";
-import PageHead from "@/components/Header";
+import ItemViewMixin from "@/mixins/item-view-mixin";
 
 export default {
-  components: {
-    ItemCard,
-    Spinner,
-    PageHead,
-  },
-  setup(props, ctx) {
-    const { itemLoaded, item } = useFetchItem(ctx);
-    return {
-      itemLoaded,
-      item,
-    };
-  },
+  mixins: [ItemViewMixin],
   methods: {
     goToList() {
       this.$router.push("/");
